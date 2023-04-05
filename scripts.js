@@ -1,12 +1,14 @@
+let lista = [];
+
 function buscarCategorias(){
     fetch("https://fakestoreapi.com/products/categories")
     .then(res => res.json())
-    .then(dados => {
-        dados.forEach(cada => {
+    .then(listaCategorias => {
+        listaCategorias.forEach(cada => {
             categorias.innerHTML += `   
-                <li class="list-group-item">
+                <li class="$>
                     <h6>
-                        <input type="checkbox">
+                        <input name="${cada}" type="checkbox" onClick="filtro()">
                         <span>${cada}</span>
                     </h6>
                 </li>`
@@ -16,10 +18,11 @@ function buscarCategorias(){
 
 
 function buscarProdutos(){
-    fetch("https://fakestoreapi.com/products?limit=15")
+    fetch("https://fakestoreapi.com/products")
     .then(res => res.json())
-    .then(dados => {
-        dados.forEach(cada => {
+    .then(listaProdutos => {
+        listaProdutos.forEach(cada => {
+            lista = listaProdutos
             products.innerHTML += `
             <li>
                 <div class="card">
@@ -27,7 +30,7 @@ function buscarProdutos(){
                         <img src="${cada.image}" alt="${cada.title}" class="card-img-top">
                     </picture>
                     <div class="card-body">
-                        <h5 class="card-title">${cada.title}</h5>
+                        <h5 class="card-title" title="${cada.title}">${cada.title}</h5>
                         <p class="card-text text-warp">${cada.description}</p>
                         <h6 class="card-text"> $${cada.price} <h6>
                         <a href="" class="btn btn-primary">Adicionar ao Carrinho</a>
@@ -37,3 +40,20 @@ function buscarProdutos(){
         })
     })
 }buscarProdutos()
+
+
+function filtro ()
+{
+    let inputs = document.querySelectorAll('input.checked');
+    let inputs_nomes = [];
+    for(let i = 0; i < inputs.length; i++){
+        inputs_nomes.push(inputs[i].name)
+    }
+
+    let lis = documet.querySelectorAll("#products li");
+    for(let i = 0; lis.length; i++){
+        if(!lis[i].classList.contains(inputs_nomes.toString())){
+            lis[i}.Style.display = none
+        }
+    }
+}
